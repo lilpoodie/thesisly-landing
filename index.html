@@ -3,81 +3,49 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Thesisly - Proposal Generator</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 2rem;
-      background-color: #f9f9f9;
-    }
-    input, button {
-      padding: 0.5rem;
-      font-size: 1rem;
-      margin-top: 1rem;
-      width: 100%;
-    }
-    #result {
-      margin-top: 2rem;
-      background: #fff;
-      padding: 1rem;
-      border: 1px solid #ddd;
-    }
-  </style>
+  <title>Thesisly Proposal Generator</title>
 </head>
 <body>
   <h1>Try the Proposal Generator</h1>
+
   <p>Enter a thesis topic below and get a sample proposal instantly.</p>
 
-  <input type="text" id="topicInput" placeholder="e.g. Climate Change" />
-  <button onclick="generateProposal()">Generate Proposal</button>
+  <input type="text" id="topicInput" placeholder="Enter your thesis topic" />
+  <button id="generateBtn">Generate Proposal</button>
 
-  <div id="result">
-    <h3>Here's a sample proposal for:</h3>
-    <p id="output">Your proposal will appear here.</p>
-  </div>
+  <h2>Here's a sample proposal for: <span id="chosenTopic">____</span></h2>
+  <p id="proposalText">Your proposal will appear here.</p>
 
   <script>
-    export default async function handler(req, res) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method Not Allowed' });
-  }
+    document.getElementById('generateBtn').addEventListener('click', async () => {
+      const topic = document.getElementById('topicInput').value.trim();
+      document.getElementById('chosenTopic').textContent = topic || "____";
+      document.getElementById('proposalText').textContent = "Loading...";
 
-  const { topic } = req.body;
-
-  if (!topic) {
-    return res.status(400).json({ error: 'Missing topic in request body' });
-  }
-
-  // Dummy response for testing – replace this with real AI call if needed
-  const fakeProposal = `This thesis explores the complexities and implications of "${topic}" in modern academic and social contexts. It aims to provide new insights, supported by recent research and critical analysis.`;
-
-  return res.status(200).json({ proposal: fakeProposal });
-}
-
+      if (!topic) {
+        document.getElementById('proposalText').textContent = "Please enter a topic.";
+        return;
       }
 
-      document.getElementById("output").innerText = "Generating...";
-
       try {
-        const response = await fetch("https://thesisly-landing.vercel.app/", {
-          method: "POST",
+        const response = await fetch('/api/proposal', {
+          method: 'POST',
           headers: {
-            "Content-Type": "application/json"
+            'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ topic })
+          body: JSON.stringify({ topic }),
         });
 
         if (!response.ok) {
-          throw new Error("Server error: " + response.status);
+          throw new Error(`Server error: ${response.status}`);
         }
 
         const data = await response.json();
-        document.getElementById("output").innerText = data.proposal || "No proposal returned.";
-      } catch (err) {
-        console.error(err);
-        document.getElementById("output").innerText = "Failed to generate proposal. " + err.message;
+        document.getElementById('proposalText').textContent = data.proposal;
+      } catch (error) {
+        document.getElementById('proposalText').textContent = `Failed to generate proposal. ${error.message}`;
       }
-    }
+    });
   </script>
 </body>
 </html>
