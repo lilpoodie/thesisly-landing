@@ -68,8 +68,9 @@
       document.getElementById('proposalResult').innerText = 'Generating proposal...';
 
       try {
-        const response = await fetch('https://thesisly-landing.vercel.app/', {
-          method: 'POST',
+        const response = await fetch('https://thesisly-landing.vercel.app/', { method: 'POST', ... })
+
+
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ industry, projectSize }),
         });
