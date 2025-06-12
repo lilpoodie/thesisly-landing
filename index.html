@@ -93,6 +93,28 @@
 <footer>
     Built by Eligha Hagler IV · All Rights Reserved · 2025
 </footer>
+<section id="demo" style="padding: 2rem; background: #f9f9f9;">
+  <h2>Try the Proposal Generator</h2>
+  <p>Enter a thesis topic below and get a sample proposal instantly.</p>
+  <input id="topicInput" type="text" placeholder="Your thesis topic..." style="width: 100%; padding: 0.5rem; margin: 0.5rem 0;">
+  <button onclick="generateProposal()" style="padding: 0.5rem 1rem;">Generate Proposal</button>
+  <div id="proposalOutput" style="margin-top: 1rem; white-space: pre-wrap;"></div>
+</section>
+
+<script>
+  function generateProposal() {
+    const topic = document.getElementById('topicInput').value.trim();
+    const output = document.getElementById('proposalOutput');
+    
+    if (!topic) {
+      output.innerText = "Please enter a topic to generate a proposal.";
+      return;
+    }
+
+    // Fake AI response for now
+    output.innerText = `Here's a sample proposal for: "${topic}"\n\nThis thesis explores the complexities and implications of "${topic}" in modern academic and social contexts. It aims to provide new insights, supported by recent research and critical analysis.`;
+  }
+</script>
 
 </body>
 </html>
