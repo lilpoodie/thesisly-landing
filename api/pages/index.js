@@ -7,7 +7,13 @@ export default function Home() {
 
   // Function that calls your backend API
   async function generateProposal(topic) {
-    
+    const response = await fetch('/api/proposal', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ topic }),
+    });
 
     if (!response.ok) {
       throw new Error('Failed to fetch proposal');
