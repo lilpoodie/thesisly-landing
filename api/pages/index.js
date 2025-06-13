@@ -5,13 +5,10 @@ export default function Home() {
   const [proposal, setProposal] = useState('');
   const [loading, setLoading] = useState(false);
 
-  // Function that calls your backend API
   async function generateProposal(topic) {
     const response = await fetch('/api/proposal', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ topic }),
     });
 
@@ -23,13 +20,11 @@ export default function Home() {
     return data.proposal;
   }
 
-  // Handle button click
   const handleClick = async () => {
     if (!topic.trim()) {
       alert('Please enter a topic');
       return;
     }
-
     setLoading(true);
     try {
       const generatedProposal = await generateProposal(topic);
